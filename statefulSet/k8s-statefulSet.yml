@@ -1,0 +1,51 @@
+# statefulset manifest file for nginx
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx-statefulset
+  labels:
+    app: nginx
+spec:
+  serviceName: "nginx"   # Headless service for network identity
+  replicas: 3            # Number of pods
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.21
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: nginx-storage
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:   # Each pod gets its own PVC
+  - metadata:
+      name: nginx-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: standard   # Change as per your cluster
+      resources:
+        requests:
+          storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None   # Headless service for StatefulSet
+  selector:
+    app: nginx
