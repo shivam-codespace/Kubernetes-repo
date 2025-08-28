@@ -1,0 +1,24 @@
+# Volumes are used  for storage purposes in kubernetes
+# we can use volumes to store database properties, application logs etc
+# when we stop a pod all data inside the pod is lost
+# using volumes, data can be stored outside the pod
+# so that even if pod is deleted data will be persistent
+# if we want to store data permanently we can use persistent volumes
+
+---
+apiVersion: v1  
+kind: PersistentVolume
+metadata:
+  name: pv-volume
+  labels:
+    name: db-storage-pv
+spec:
+  capacity:
+    storage: 4Gi  
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  hostPath:
+    path: /opt/mysql
+...
