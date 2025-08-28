@@ -1,0 +1,20 @@
+# to externalize database properties we can use ConfigMap concept
+
+# we shouldn't hardcode database credentials in application.properties file
+# we can create a configmap with database properties and mount it as volume in pod
+# because we need to change database crefentials based on environment(dev DB,SIT DB, UAT DB,prod)
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+  labels:
+    storage: db-storage
+data:
+  DB_HOST_SERVICE_NAME_VALUE: db-service
+  DB_USER_NAME_VALUE: "root"
+  DB_PASSWORD_VALUE: "root"
+  DB_SCHEMA_VALUE: weshopify-app
+  DB_PORT_VALUE: "3306"
+...
