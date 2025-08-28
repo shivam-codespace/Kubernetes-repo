@@ -3,7 +3,7 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: Logging
+  name: Logging-demonset
 spec:
   selector:
     matchLabels:
