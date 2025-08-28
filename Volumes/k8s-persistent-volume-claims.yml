@@ -1,0 +1,19 @@
+# persistent volume claims are used to claim persistent volumes
+# we can create a persistent volume claim and use it in pods  
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pv-claim
+spec:
+  volumeName: pv-volume
+  storageClassName: local-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+...
+  
