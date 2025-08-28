@@ -1,0 +1,29 @@
+# java web app pod creation
+---
+apiVersion: v1  
+kind: Pod  
+metadata:  
+  name: javawebapppod  
+  labels:  
+    app: javawebapp   
+spec:  
+  containers: 
+    - name: javawebappcontainer
+      image: ashokit/javawebapp
+      ports:  
+        - containerPort: 8080  
+---
+# service manifest for javawebappsvc
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: javawebappsvc  
+spec:
+  type: ClusterIP
+  selector:
+    app: javawebapp
+  ports:
+    - port: 8080
+      targetPort: 8080
+...
