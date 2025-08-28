@@ -1,0 +1,34 @@
+# damonSet_manifest file
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: Logging
+spec:
+  selector:
+    matchLabels:
+      app: httpd-logging
+    template:
+      metadata:
+        labels:
+          app: httpd-logging
+      spec:
+        containers:
+          - name: webserver-logging
+            image: httpd
+            ports:
+              - containerPort: 80
+---
+# node-port service manifest for javawebappsvc
+apiVersion: v1
+kind: Service
+metadata:
+  name: Logging-service
+spec:
+  type: NodePort
+  selector:
+    app: httpd-logging
+  ports:
+    - port: 80
+      targetPort: 80
+...
