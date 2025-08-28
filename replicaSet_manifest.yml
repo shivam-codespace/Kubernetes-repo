@@ -20,4 +20,17 @@ spec:
           image: ashokit/javawebapp
           ports:
             - containerPort: 8080
+---
+# node-port service manifest for javawebappsvc
+apiVersion: v1
+kind: Service
+metadata:
+  name: javawebappsvc
+spec:
+  type: NodePort
+  selector:
+    app: javawebapp
+  ports:
+    - port: 80
+      targetPort: 8080
 ...
