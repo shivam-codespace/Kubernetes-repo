@@ -1,0 +1,23 @@
+# manifest for replica set
+---
+apiVersion: apps/v1
+kind: ReaplicaSet
+matadata:
+  name: javawebapp-replicaset
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: javawebapp
+  template:
+    metadata:
+      name: javawebapppod
+      labels:
+        app: javawebapp
+    spec:
+      containers:
+        - name: javawebappcontainer
+          image: ashokit/javawebapp
+          ports:
+            - containerPort: 8080
+...
