@@ -1,0 +1,50 @@
+# db-deplyoment usinhgg persistent volume and configmap and secret
+# we are using persistent volume to store database datas permanently
+# we are using configmap to externalize database properties 
+# we are using secret to store database credentials in encrypted format
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+  labels:
+    app: app-db
+spec:
+  replicas: 2 
+  selector:
+    matchLabels:
+      app: app-db
+  template:
+    metadata:
+      name: db-pod
+      labels:
+        app: app-db-pod
+    spec:
+      volumes:
+        - name: db-volume
+          persistentVolumeClaim:
+            claimName: db-pvc
+      containers:
+        - name: app-db
+          image: mysql:5.7
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: db-volume
+              mountPath: /opt/mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              # value: root
+              valueFrom:
+                secretKeyRef:
+                  name: db-config-secret
+                  key: DB_PASSWORD_VALUE
+            - name: MYSQL_DATABASE
+              # value: employee
+              valueFrom:
+                configMapKeyRef:
+                  name: db-configmap
+                  key: DB_SCHEMA_VALUE
+...
