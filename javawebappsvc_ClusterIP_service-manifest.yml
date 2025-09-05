@@ -1,0 +1,14 @@
+# service manifest for javawebappsvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: javawebappsvc  
+spec:
+  type: ClusterIP
+  selector:
+    app: javawebapp
+  ports:
+    - port: 80
+      targetPort: 8080
+...

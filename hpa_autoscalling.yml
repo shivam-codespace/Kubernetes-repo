@@ -1,0 +1,19 @@
+# horizontal autoscaling in matric server pod mainifest file
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: javawebapp-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: hpa-deployment
+  minReplicas: 2
+  maxReplicas: 5
+  matrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 50
+...
